@@ -3,7 +3,13 @@
 import { ReactNode, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Sun, Moon, MapPin } from "lucide-react";
 import {
   Field,
@@ -16,13 +22,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { createClient } from "@supabase/supabase-js";
 import { toast } from "sonner";
-import Image from "next/image";
 import useTheme from "@/hooks/useTheme";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 export const Wrapper = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <div className="flex h-screen flex-col">{children}</div>
+      <div className="flex h-screen flex-col items-center">{children}</div>
     </>
   );
 };
@@ -30,7 +42,9 @@ export const Wrapper = ({ children }: { children: ReactNode }) => {
 export const Container = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <main className="flex flex-col gap-4 px-4 md:px-0">{children}</main>
+      <main className="flex w-full max-w-4xl flex-1 flex-col justify-evenly gap-4 px-4 md:px-0">
+        {children}
+      </main>
     </>
   );
 };
@@ -39,8 +53,8 @@ export const Nav = () => {
   const { darkMode, setDarkMode } = useTheme();
   return (
     <>
-      <nav className="sticky top-0 flex flex-col">
-        <div className="flex justify-end p-4 md:px-0 md:py-0">
+      <nav className="sticky top-0 flex w-full flex-col items-center">
+        <div className="flex w-full max-w-4xl justify-end p-4 md:px-4 md:py-4 lg:px-0">
           <Button
             className="relative flex w-8 items-center justify-center"
             onClick={() => setDarkMode(!darkMode)}
@@ -71,15 +85,7 @@ export const Header = () => {
         <div className="flex gap-4">
           <h2>Frontend Developer</h2>
           <MapPin className="size-5" />
-          <div className="flex gap-2">
-            <h3>United Kingdom</h3>
-            <Image
-              width={20}
-              height={20}
-              src="/flag-for-united-kingdom_1f1ec-1f1e7.png"
-              alt="united kingdom flag"
-            />
-          </div>
+          <h3>United Kingdom</h3>
         </div>
       </header>
     </>
@@ -107,19 +113,22 @@ const StackButton = () => {
 export const Projects = () => {
   return (
     <>
-      <section className="flex flex-col gap-4">
-        <ProjectCard
-          title="React Input CLI"
-          description="CLI based on shadcn's component library CLI with formatted input components based on Cleave JS"
-        />
-        <ProjectCard
-          title="Blog"
-          description="Simple blog based on jekyll with posts written in json instead of markdown"
-        />
-        <ProjectCard
-          title="Personal website"
-          description="Single page personal website with a contact form"
-        />
+      <section className="flex w-full flex-col gap-4">
+        <h4>Projects</h4>
+        <ul className="flex w-full flex-col gap-4 md:flex-row">
+          <ProjectCard
+            title="React Input CLI"
+            description="CLI based on shadcn's component library CLI with formatted input components based on Cleave JS"
+          />
+          <ProjectCard
+            title="Blog"
+            description="Simple blog based on jekyll with posts written in json instead of markdown"
+          />
+          <ProjectCard
+            title="Personal website"
+            description="Single page personal website with a contact form"
+          />
+        </ul>
       </section>
     </>
   );
@@ -134,11 +143,12 @@ const ProjectCard = ({
 }) => {
   return (
     <>
-      <Card className="rounded-none">
+      <Card className="w-full rounded-none">
         <CardContent>
-          <span>{title}</span>
-          <p>{description}</p>
-          <div></div>
+          <CardHeader>
+            <CardTitle>{title}</CardTitle>
+            <CardDescription>{description}</CardDescription>
+          </CardHeader>
         </CardContent>
       </Card>
     </>
@@ -233,14 +243,22 @@ export const Form = () => {
   };
   return (
     <>
-      <span>Get in touch</span>
-      <Card className="rounded-none">
-        <CardContent>
-          <form onSubmit={handleSubmit} action="POST" noValidate>
-            <FieldGroup>
-              <FieldSet>
-                <FieldLegend>Contact</FieldLegend>
-                <FieldGroup>
+      <section className="flex flex-col gap-4">
+        <span>Get in touch</span>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="w-fit">Open</Button>
+          </DialogTrigger>
+          <DialogContent
+            onOpenAutoFocus={(e) => e.preventDefault()}
+            className="rounded-none"
+          >
+            <DialogHeader>
+              <DialogTitle>Contact</DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleSubmit} action="POST" noValidate>
+              <FieldGroup>
+                <FieldSet>
                   <Field>
                     <div className="flex h-5 justify-between">
                       <FieldLabel htmlFor="name">
@@ -257,7 +275,10 @@ export const Form = () => {
                           : undefined
                       }
                       onChange={(e) =>
-                        setInput((prev) => ({ ...prev, name: e.target.value }))
+                        setInput((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
                       }
                       value={input.name}
                       onBlur={() => handleBlur(input.name, "name")}
@@ -282,7 +303,10 @@ export const Form = () => {
                           : undefined
                       }
                       onChange={(e) =>
-                        setInput((prev) => ({ ...prev, email: e.target.value }))
+                        setInput((prev) => ({
+                          ...prev,
+                          email: e.target.value,
+                        }))
                       }
                       value={input.email}
                       onBlur={() => handleBlur(input.email, "email")}
@@ -320,12 +344,12 @@ export const Form = () => {
                     />
                   </Field>
                   <Button>Send</Button>
-                </FieldGroup>
-              </FieldSet>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
+                </FieldSet>
+              </FieldGroup>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </section>
     </>
   );
 };
