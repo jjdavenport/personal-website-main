@@ -11,13 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Sun, Moon, MapPin } from "lucide-react";
-import {
-  Field,
-  FieldGroup,
-  FieldLabel,
-  FieldSet,
-  FieldLegend,
-} from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { createClient } from "@supabase/supabase-js";
@@ -28,8 +22,11 @@ import {
   DialogContent,
   DialogHeader,
   DialogTrigger,
+  DialogTitle,
+  DialogClose,
+  DialogFooter,
 } from "@/components/ui/dialog";
-import { DialogTitle } from "@radix-ui/react-dialog";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
 export const Wrapper = ({ children }: { children: ReactNode }) => {
   return (
@@ -56,7 +53,7 @@ export const Nav = () => {
       <nav className="sticky top-0 flex w-full flex-col items-center">
         <div className="flex w-full max-w-4xl justify-end p-4 md:px-4 md:py-4 lg:px-0">
           <Button
-            className="relative flex w-8 items-center justify-center"
+            className="relative flex h-10 w-10 items-center justify-center"
             onClick={() => setDarkMode(!darkMode)}
           >
             <Sun
@@ -78,10 +75,11 @@ export const Nav = () => {
 };
 
 export const Header = () => {
+  const words = "Hi, I'm Jordan";
   return (
     <>
       <header>
-        <h1 className="text-2xl">Hi, I'm Jordan</h1>
+        <TextGenerateEffect words={words} />
         <div className="flex gap-4">
           <h2>Frontend Developer</h2>
           <MapPin className="size-5" />
@@ -96,7 +94,7 @@ export const Stack = () => {
   return (
     <>
       <section>
-        <span>Tech Stack</span>
+        <span className="text-lg">Tech Stack</span>
       </section>
     </>
   );
@@ -114,7 +112,7 @@ export const Projects = () => {
   return (
     <>
       <section className="flex w-full flex-col gap-4">
-        <h4>Projects</h4>
+        <h4 className="text-lg">Projects</h4>
         <ul className="flex w-full flex-col gap-4 md:flex-row">
           <ProjectCard
             title="React Input CLI"
@@ -156,6 +154,7 @@ const ProjectCard = ({
 };
 
 export const Form = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [input, setInput] = useState({
     name: "",
     email: "",
@@ -231,6 +230,7 @@ export const Form = () => {
 
       if (!error) {
         setInput({ name: "", email: "", message: "" });
+        setDialogOpen(false);
         toast.success("Message sent", { id: toastId });
       } else {
         toast.error("Failed to send message", { id: toastId });
@@ -244,8 +244,8 @@ export const Form = () => {
   return (
     <>
       <section className="flex flex-col gap-4">
-        <span>Get in touch</span>
-        <Dialog>
+        <span className="text-lg">Get in touch</span>
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button className="w-fit">Open</Button>
           </DialogTrigger>
@@ -343,7 +343,12 @@ export const Form = () => {
                       name="message"
                     />
                   </Field>
-                  <Button>Send</Button>
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button variant="outline">Cancel</Button>
+                    </DialogClose>
+                    <Button type="submit">Send</Button>
+                  </DialogFooter>
                 </FieldSet>
               </FieldGroup>
             </form>
