@@ -3,10 +3,14 @@
 import { useEffect, useState } from "react";
 
 const useTheme = () => {
-  const prefersDarkMode = window.matchMedia(
-    "(prefers-color-scheme: dark)",
-  ).matches;
-  const [darkMode, setDarkMode] = useState(prefersDarkMode);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const prefersDarkMode = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    setDarkMode(prefersDarkMode);
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement.classList;
@@ -15,7 +19,7 @@ const useTheme = () => {
     } else {
       root.remove("dark");
     }
-  });
+  }, [darkMode]);
 
   return {
     darkMode,
