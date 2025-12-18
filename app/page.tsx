@@ -6,6 +6,7 @@ import {
   Stack,
   Projects,
   Form,
+  Footer,
 } from "@/components/content";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -20,6 +21,7 @@ export default function Home() {
         <Projects />
         <Form />
       </Container>
+      <Footer />
     </Wrapper>
   );
 }

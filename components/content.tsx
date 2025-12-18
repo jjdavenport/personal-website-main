@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, SetStateAction, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,11 +29,12 @@ import {
 } from "@/components/ui/dialog";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import Image from "next/image";
+import Link from "next/link";
 
 export const Wrapper = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <div className="flex h-screen flex-col items-center">{children}</div>
+      <div className="flex min-h-screen flex-col items-center">{children}</div>
     </>
   );
 };
@@ -41,7 +42,7 @@ export const Wrapper = ({ children }: { children: ReactNode }) => {
 export const Container = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <main className="flex w-full max-w-4xl flex-1 flex-col justify-evenly gap-4 px-4 md:px-0">
+      <main className="flex w-full max-w-4xl flex-1 flex-col justify-evenly gap-10 px-4 pb-4 md:gap-4 md:px-0 md:pb-0">
         {children}
       </main>
     </>
@@ -52,7 +53,7 @@ export const Nav = () => {
   const { darkMode, setDarkMode } = useTheme();
   return (
     <>
-      <nav className="sticky top-0 flex w-full flex-col items-center">
+      <nav className="sticky top-0 z-40 flex w-full flex-col items-center backdrop-blur-lg">
         <div className="flex w-full max-w-4xl justify-end p-4 md:px-4 md:py-4 lg:px-0">
           <Button
             aria-label={darkMode ? "light mode" : "dark mode"}
@@ -84,9 +85,9 @@ export const Header = () => {
       <header>
         <TextGenerateEffect words={words} />
         <div className="flex gap-4">
-          <h2>Frontend Developer</h2>
+          <h2 className="text-sm md:text-base">Frontend Developer</h2>
           <MapPin className="size-5" />
-          <h3>United Kingdom</h3>
+          <h3 className="text-sm md:text-base">United Kingdom</h3>
         </div>
       </header>
     </>
@@ -112,13 +113,15 @@ export const Stack = () => {
           <StackButton src="/git-icon-logo-svgrepo-com.svg" title="Git" />
           <StackButton src="/vitejs-svgrepo-com.svg" title="Vite" />
           <StackButton src="/jest-svgrepo-com.svg" title="Jest" />
-          <StackButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
+          <StackButton src="/postgresql-icon.svg" title="Tailwind" />
           <StackButton
             src="/react-router-svgrepo-com.svg"
             title="React router"
           />
           <StackButton src="/sass-svgrepo-com.svg" title="Sass" />
           <StackButton src="/scss-svgrepo-com.svg" title="SCSS" />
+          <StackButton src="/postgresql-icon.svg" title="PostgresSQL" />
+          <StackButton src="/prisma-svgrepo-com.svg" title="Prisma" />
         </ul>
       </section>
     </>
@@ -128,12 +131,29 @@ export const Stack = () => {
 const StackButton = ({ src, title }: { src: string; title: string }) => {
   return (
     <>
-      <Card className="flex w-fit rounded-none py-2">
-        <CardContent className="flex gap-2">
-          <Image height={20} width={20} src={src} alt={title} />
-          <span>{title}</span>
-        </CardContent>
-      </Card>
+      <li>
+        <Card className="flex w-fit rounded-none py-2">
+          <CardContent className="flex items-center gap-2">
+            <Image height={20} width={20} src={src} alt={title} />
+            <span>{title}</span>
+          </CardContent>
+        </Card>
+      </li>
+    </>
+  );
+};
+
+const ProjectButton = ({ src, title }: { src: string; title: string }) => {
+  return (
+    <>
+      <li>
+        <Card className="flex w-fit rounded-none py-2">
+          <CardContent className="flex items-center gap-2 px-2">
+            <Image height={15} width={15} src={src} alt={title} />
+            <span className="text-xs">{title}</span>
+          </CardContent>
+        </Card>
+      </li>
     </>
   );
 };
@@ -146,16 +166,39 @@ export const Projects = () => {
         <ul className="flex w-full flex-col gap-4 md:flex-row">
           <ProjectCard
             title="React Input CLI"
-            description="CLI based on shadcn's component library CLI with formatted input components based on Cleave JS"
-          />
+            description="CLI based on shadcn's component library CLI with formatted input components based on Cleave JS."
+          >
+            <ProjectButton
+              src="/javascript-svgrepo-com.svg"
+              title="Javascript"
+            />
+            <ProjectButton src="/react-1-logo-svgrepo-com.svg" title="React" />
+            <ProjectButton
+              src="/typescript-svgrepo-com.svg"
+              title="Typescript"
+            />
+            <ProjectButton src="/vitejs-svgrepo-com.svg" title="Vite" />
+            <ProjectButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
+          </ProjectCard>
           <ProjectCard
             title="Blog"
-            description="Simple blog based on jekyll with posts written in json instead of markdown"
-          />
+            description="Static React site with react-router for page routing based on jekyll with posts written in json instead of markdown."
+          >
+            <ProjectButton src="/react-1-logo-svgrepo-com.svg" title="React" />
+            <ProjectButton
+              src="/typescript-svgrepo-com.svg"
+              title="Typescript"
+            />
+            <ProjectButton src="/vitejs-svgrepo-com.svg" title="Vite" />
+            <ProjectButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
+          </ProjectCard>
           <ProjectCard
             title="Personal website"
-            description="Single page personal website with a contact form"
-          />
+            description="Simple next personal website with shadcn components and supabase postgres database for storing messages."
+          >
+            <ProjectButton src="/next-js.svg" title="Next.js" />
+            <ProjectButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
+          </ProjectCard>
         </ul>
       </section>
     </>
@@ -165,18 +208,21 @@ export const Projects = () => {
 const ProjectCard = ({
   title,
   description,
+  children,
 }: {
   title: string;
   description: string;
+  children: ReactNode;
 }) => {
   return (
     <>
       <Card className="w-full rounded-none">
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
         <CardContent>
-          <CardHeader>
-            <CardTitle>{title}</CardTitle>
-            <CardDescription>{description}</CardDescription>
-          </CardHeader>
+          <ul className="flex flex-wrap gap-2">{children}</ul>
         </CardContent>
       </Card>
     </>
@@ -271,11 +317,23 @@ export const Form = () => {
       });
     }
   };
+
+  const handleDialog = (open: boolean) => {
+    setDialogOpen(open);
+    if (!open) {
+      setError({
+        name: "",
+        email: "",
+        message: "",
+      });
+    }
+  };
+
   return (
     <>
       <section className="flex flex-col gap-4">
         <span className="text-lg">Get in touch</span>
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <Dialog open={dialogOpen} onOpenChange={handleDialog}>
           <DialogTrigger asChild>
             <Button aria-label="contact" className="w-16">
               <Mail />
@@ -390,6 +448,25 @@ export const Form = () => {
           </DialogContent>
         </Dialog>
       </section>
+    </>
+  );
+};
+
+export const Footer = () => {
+  return (
+    <>
+      <footer className="flex w-full flex-col items-center">
+        <Separator />
+        <div className="flex w-full max-w-4xl justify-end p-4">
+          <Link
+            className="hover:underline"
+            target="_blank"
+            href="https://github.com/jjdavenport"
+          >
+            jjdavenport
+          </Link>
+        </div>
+      </footer>
     </>
   );
 };
