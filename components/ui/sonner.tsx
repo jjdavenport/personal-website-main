@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { JetBrains_Mono } from "next/font/google";
-import useTheme from "@/hooks/useTheme";
+import { useTheme } from "@/hooks/theme-provider";
 
 const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],

@@ -16,7 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { createClient } from "@supabase/supabase-js";
 import { toast } from "sonner";
-import useTheme from "@/hooks/useTheme";
+import { useTheme } from "@/hooks/theme-provider";
 import {
   Dialog,
   DialogContent,
@@ -95,6 +95,7 @@ export const Header = () => {
 };
 
 export const Stack = () => {
+  const { darkMode } = useTheme();
   return (
     <>
       <section className="flex flex-col gap-4">
@@ -109,7 +110,14 @@ export const Stack = () => {
           <StackButton src="/node-js-svgrepo-com.svg" title="Node.js" />
           <StackButton src="/typescript-svgrepo-com.svg" title="Typescript" />
           <StackButton src="/express-svgrepo-com.svg" title="Express" />
-          <StackButton src="/github-svgrepo-com.svg" title="Github" />
+          <StackButton
+            src={
+              darkMode
+                ? "/github-svgrepo-com-dark.svg"
+                : "/github-svgrepo-com.svg"
+            }
+            title="Github"
+          />
           <StackButton src="/git-icon-logo-svgrepo-com.svg" title="Git" />
           <StackButton src="/vitejs-svgrepo-com.svg" title="Vite" />
           <StackButton src="/jest-svgrepo-com.svg" title="Jest" />
@@ -465,26 +473,30 @@ export const Form = () => {
 };
 
 export const Footer = () => {
+  const { darkMode } = useTheme();
   return (
-    <>
-      <footer className="flex w-full flex-col items-center">
-        <Separator />
-        <div className="flex w-full max-w-4xl justify-end p-4">
-          <Link
-            className="flex gap-2 hover:underline"
-            target="_blank"
-            href="https://github.com/jjdavenport"
-          >
-            <Image
-              width={20}
-              height={20}
-              src="/github-svgrepo-com.svg"
-              alt="github logo"
-            />
-            jjdavenport
-          </Link>
-        </div>
-      </footer>
-    </>
+    <footer className="flex w-full flex-col items-center">
+      <Separator />
+      <div className="flex w-full max-w-4xl justify-end p-4">
+        <Link
+          className="flex gap-2 hover:underline"
+          target="_blank"
+          href="https://github.com/jjdavenport"
+        >
+          <Image
+            width={20}
+            height={20}
+            src={
+              darkMode
+                ? "/github-svgrepo-com-dark.svg"
+                : "/github-svgrepo-com.svg"
+            }
+            alt="github logo"
+            priority
+          />
+          jjdavenport
+        </Link>
+      </div>
+    </footer>
   );
 };
