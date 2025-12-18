@@ -7,12 +7,12 @@ import {
   Projects,
   Form,
 } from "@/components/content";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function Home() {
   return (
     <Wrapper>
-      <Toaster position="top-center" />
+      <Toaster />
       <Nav />
       <Container>
         <Header />

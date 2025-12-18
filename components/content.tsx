@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Sun, Moon, MapPin } from "lucide-react";
+import { Sun, Moon, MapPin, Mail } from "lucide-react";
 import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -25,8 +25,10 @@ import {
   DialogTitle,
   DialogClose,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import Image from "next/image";
 
 export const Wrapper = ({ children }: { children: ReactNode }) => {
   return (
@@ -93,17 +95,44 @@ export const Header = () => {
 export const Stack = () => {
   return (
     <>
-      <section>
+      <section className="flex flex-col gap-2">
         <span className="text-lg">Tech Stack</span>
+        <ul className="flex flex-wrap gap-2">
+          <StackButton src="/react-1-logo-svgrepo-com.svg" title="React" />
+          <StackButton src="/next-js.svg" title="Next.js" />
+          <StackButton src="/javascript-svgrepo-com.svg" title="Javascript" />
+          <StackButton src="/html-5-svgrepo-com.svg" title="HTML" />
+          <StackButton src="/css-3-svgrepo-com.svg" title="CSS" />
+          <StackButton src="/Vitest--Streamline-Svg-Logos.svg" title="Vitest" />
+          <StackButton src="/node-js-svgrepo-com.svg" title="Node.js" />
+          <StackButton src="/typescript-svgrepo-com.svg" title="Typescript" />
+          <StackButton src="/express-svgrepo-com.svg" title="Express" />
+          <StackButton src="/github-svgrepo-com.svg" title="Github" />
+          <StackButton src="/git-icon-logo-svgrepo-com.svg" title="Git" />
+          <StackButton src="/vitejs-svgrepo-com.svg" title="Vite" />
+          <StackButton src="/jest-svgrepo-com.svg" title="Jest" />
+          <StackButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
+          <StackButton
+            src="/react-router-svgrepo-com.svg"
+            title="React router"
+          />
+          <StackButton src="/sass-svgrepo-com.svg" title="Sass" />
+          <StackButton src="/scss-svgrepo-com.svg" title="SCSS" />
+        </ul>
       </section>
     </>
   );
 };
 
-const StackButton = () => {
+const StackButton = ({ src, title }: { src: string; title: string }) => {
   return (
     <>
-      <button></button>
+      <Card className="flex w-fit rounded-none py-2">
+        <CardContent className="flex gap-2">
+          <Image height={20} width={20} src={src} alt={title} />
+          <span>{title}</span>
+        </CardContent>
+      </Card>
     </>
   );
 };
@@ -247,7 +276,9 @@ export const Form = () => {
         <span className="text-lg">Get in touch</span>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="w-fit">Open</Button>
+            <Button aria-label="contact" className="w-16">
+              <Mail />
+            </Button>
           </DialogTrigger>
           <DialogContent
             onOpenAutoFocus={(e) => e.preventDefault()}
@@ -255,6 +286,9 @@ export const Form = () => {
           >
             <DialogHeader>
               <DialogTitle>Contact</DialogTitle>
+              <DialogDescription>
+                Enter your information below to get in contact
+              </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} action="POST" noValidate>
               <FieldGroup>
