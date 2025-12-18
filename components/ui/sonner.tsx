@@ -50,10 +50,10 @@ export function Toaster() {
         },
       }}
       icons={{
-        success: <CheckCircle className="h-4 w-4 text-green-600" />,
-        error: <XCircle className="h-4 w-4 text-red-600" />,
-        info: <Info className="h-4 w-4 text-blue-600" />,
-        warning: <AlertTriangle className="h-4 w-4 text-yellow-600" />,
+        success: <CheckCircle className="h-4 w-4" />,
+        error: <XCircle className="h-4 w-4" />,
+        info: <Info className="h-4 w-4" />,
+        warning: <AlertTriangle className="h-4 w-4" />,
         loading: <Loader2 className="h-4 w-4 animate-spin" />,
       }}
     />

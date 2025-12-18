@@ -82,7 +82,7 @@ export const Header = () => {
   const words = "Hi, I'm Jordan";
   return (
     <>
-      <header>
+      <header className="flex flex-col gap-4 md:gap-0">
         <TextGenerateEffect words={words} />
         <div className="flex items-center gap-2 md:gap-4">
           <h2 className="text-sm md:text-base">Frontend Developer</h2>
@@ -102,14 +102,24 @@ export const Stack = () => {
         <span className="text-lg">Tech Stack</span>
         <ul className="flex flex-wrap gap-2">
           <StackButton src="/react-1-logo-svgrepo-com.svg" title="React" />
-          <StackButton src="/next-js.svg" title="Next.js" />
+          <StackButton
+            src={darkMode ? "/next-js-dark.svg" : "/next-js.svg"}
+            title="Next.js"
+          />
           <StackButton src="/javascript-svgrepo-com.svg" title="Javascript" />
           <StackButton src="/html-5-svgrepo-com.svg" title="HTML" />
           <StackButton src="/css-3-svgrepo-com.svg" title="CSS" />
           <StackButton src="/Vitest--Streamline-Svg-Logos.svg" title="Vitest" />
           <StackButton src="/node-js-svgrepo-com.svg" title="Node.js" />
           <StackButton src="/typescript-svgrepo-com.svg" title="Typescript" />
-          <StackButton src="/express-svgrepo-com.svg" title="Express" />
+          <StackButton
+            src={
+              darkMode
+                ? "/express-svgrepo-com-dark.svg"
+                : "/express-svgrepo-com.svg"
+            }
+            title="Express"
+          />
           <StackButton
             src={
               darkMode
@@ -129,9 +139,23 @@ export const Stack = () => {
           <StackButton src="/sass-svgrepo-com.svg" title="Sass" />
           <StackButton src="/scss-svgrepo-com.svg" title="SCSS" />
           <StackButton src="/postgresql-icon.svg" title="PostgresSQL" />
-          <StackButton src="/prisma-svgrepo-com.svg" title="Prisma" />
+          <StackButton
+            src={
+              darkMode
+                ? "/prisma-svgrepo-com-dark.svg"
+                : "/prisma-svgrepo-com.svg"
+            }
+            title="Prisma"
+          />
           <StackButton src="/supabase-logo-icon.png" title="Supabase" />
-          <StackButton src="/shadcn-ui-seeklogo.svg" title="shadcn/ui" />
+          <StackButton
+            src={
+              darkMode
+                ? "/shadcn-ui-seeklogo-dark.svg"
+                : "/shadcn-ui-seeklogo.svg"
+            }
+            title="shadcn/ui"
+          />
         </ul>
       </section>
     </>
@@ -169,6 +193,7 @@ const ProjectButton = ({ src, title }: { src: string; title: string }) => {
 };
 
 export const Projects = () => {
+  const { darkMode } = useTheme();
   return (
     <>
       <section className="flex w-full flex-col gap-4">
@@ -210,14 +235,24 @@ export const Projects = () => {
             title="Personal website"
             description="Simple next personal website with shadcn components and supabase postgres database for storing messages."
           >
-            <ProjectButton src="/next-js.svg" title="Next.js" />
+            <ProjectButton
+              src={darkMode ? "/next-js-dark.svg" : "/next-js.svg"}
+              title="Next.js"
+            />
             <ProjectButton
               src="/typescript-svgrepo-com.svg"
               title="Typescript"
             />
             <ProjectButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
             <ProjectButton src="/postgresql-icon.svg" title="PostgresSQL" />
-            <ProjectButton src="/shadcn-ui-seeklogo.svg" title="shadcn/ui" />
+            <ProjectButton
+              src={
+                darkMode
+                  ? "/shadcn-ui-seeklogo-dark.svg"
+                  : "/shadcn-ui-seeklogo.svg"
+              }
+              title="shadcn/ui"
+            />
           </ProjectCard>
         </ul>
       </section>
