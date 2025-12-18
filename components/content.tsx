@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, SetStateAction, useState } from "react";
+import { ReactNode, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,7 +42,7 @@ export const Wrapper = ({ children }: { children: ReactNode }) => {
 export const Container = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <main className="flex w-full max-w-4xl flex-1 flex-col justify-evenly gap-10 px-4 pb-4 md:gap-4 md:px-0 md:pb-0">
+      <main className="flex w-full max-w-4xl flex-1 flex-col justify-evenly gap-10 px-4 pb-10 md:gap-4 lg:px-0">
         {children}
       </main>
     </>
@@ -84,7 +84,7 @@ export const Header = () => {
     <>
       <header>
         <TextGenerateEffect words={words} />
-        <div className="flex gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           <h2 className="text-sm md:text-base">Frontend Developer</h2>
           <MapPin className="size-5" />
           <h3 className="text-sm md:text-base">United Kingdom</h3>
@@ -97,7 +97,7 @@ export const Header = () => {
 export const Stack = () => {
   return (
     <>
-      <section className="flex flex-col gap-2">
+      <section className="flex flex-col gap-4">
         <span className="text-lg">Tech Stack</span>
         <ul className="flex flex-wrap gap-2">
           <StackButton src="/react-1-logo-svgrepo-com.svg" title="React" />
@@ -113,7 +113,7 @@ export const Stack = () => {
           <StackButton src="/git-icon-logo-svgrepo-com.svg" title="Git" />
           <StackButton src="/vitejs-svgrepo-com.svg" title="Vite" />
           <StackButton src="/jest-svgrepo-com.svg" title="Jest" />
-          <StackButton src="/postgresql-icon.svg" title="Tailwind" />
+          <StackButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
           <StackButton
             src="/react-router-svgrepo-com.svg"
             title="React router"
@@ -122,6 +122,8 @@ export const Stack = () => {
           <StackButton src="/scss-svgrepo-com.svg" title="SCSS" />
           <StackButton src="/postgresql-icon.svg" title="PostgresSQL" />
           <StackButton src="/prisma-svgrepo-com.svg" title="Prisma" />
+          <StackButton src="/supabase-logo-icon.png" title="Supabase" />
+          <StackButton src="/shadcn-ui-seeklogo.svg" title="shadcn/ui" />
         </ul>
       </section>
     </>
@@ -182,7 +184,7 @@ export const Projects = () => {
           </ProjectCard>
           <ProjectCard
             title="Blog"
-            description="Static React site with react-router for page routing based on jekyll with posts written in json instead of markdown."
+            description="Static React site with react router for page routing based on jekyll with posts written in json instead of markdown."
           >
             <ProjectButton src="/react-1-logo-svgrepo-com.svg" title="React" />
             <ProjectButton
@@ -191,13 +193,23 @@ export const Projects = () => {
             />
             <ProjectButton src="/vitejs-svgrepo-com.svg" title="Vite" />
             <ProjectButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
+            <ProjectButton
+              src="/react-router-svgrepo-com.svg"
+              title="React router"
+            />
           </ProjectCard>
           <ProjectCard
             title="Personal website"
             description="Simple next personal website with shadcn components and supabase postgres database for storing messages."
           >
             <ProjectButton src="/next-js.svg" title="Next.js" />
+            <ProjectButton
+              src="/typescript-svgrepo-com.svg"
+              title="Typescript"
+            />
             <ProjectButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
+            <ProjectButton src="/postgresql-icon.svg" title="PostgresSQL" />
+            <ProjectButton src="/shadcn-ui-seeklogo.svg" title="shadcn/ui" />
           </ProjectCard>
         </ul>
       </section>
@@ -459,10 +471,16 @@ export const Footer = () => {
         <Separator />
         <div className="flex w-full max-w-4xl justify-end p-4">
           <Link
-            className="hover:underline"
+            className="flex gap-2 hover:underline"
             target="_blank"
             href="https://github.com/jjdavenport"
           >
+            <Image
+              width={20}
+              height={20}
+              src="/github-svgrepo-com.svg"
+              alt="github logo"
+            />
             jjdavenport
           </Link>
         </div>
