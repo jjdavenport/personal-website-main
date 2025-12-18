@@ -9,28 +9,44 @@ import {
   Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { JetBrains_Mono } from "next/font/google";
+import useTheme from "@/hooks/useTheme";
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 export const toast = sonnerToast;
 
 export function Toaster() {
+  const { darkMode } = useTheme();
   return (
     <Sonner
+      theme={darkMode ? "dark" : "light"}
       position="top-center"
       toastOptions={{
         classNames: {
           toast: cn(
+            jetBrainsMono.className,
             "pointer-events-auto",
             "flex w-full items-start gap-3",
             "border border-border bg-popover text-popover-foreground",
-            "rounded-none px-4 py-3 shadow-md",
+            "px-4 py-3 shadow-md",
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=closed]:fade-out-80 data-[state=open]:fade-in-80",
             "data-[state=closed]:slide-out-to-top-full data-[state=open]:slide-in-from-top-full",
           ),
-          title: "text-sm font-medium",
-          description: "text-sm text-muted-foreground",
+          title: cn(jetBrainsMono.className, "text-sm font-medium"),
+          description: cn(
+            jetBrainsMono.className,
+            "text-sm text-muted-foreground",
+          ),
           closeButton:
             "ml-auto rounded-none p-1 text-muted-foreground hover:text-foreground",
+        },
+        style: {
+          borderRadius: "0px",
         },
       }}
       icons={{

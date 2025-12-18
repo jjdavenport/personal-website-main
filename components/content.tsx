@@ -55,6 +55,7 @@ export const Nav = () => {
       <nav className="sticky top-0 flex w-full flex-col items-center">
         <div className="flex w-full max-w-4xl justify-end p-4 md:px-4 md:py-4 lg:px-0">
           <Button
+            aria-label={darkMode ? "light mode" : "dark mode"}
             className="relative flex h-10 w-10 items-center justify-center"
             onClick={() => setDarkMode(!darkMode)}
           >
@@ -287,7 +288,7 @@ export const Form = () => {
             <DialogHeader>
               <DialogTitle>Contact</DialogTitle>
               <DialogDescription>
-                Enter your information below to get in contact
+                Enter your information below to get in touch
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} action="POST" noValidate>
