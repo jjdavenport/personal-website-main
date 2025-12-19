@@ -340,54 +340,57 @@ const ProjectButton = ({ src, title }: { src: string; title: string }) => {
 
 export const Form = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
+
   const [input, setInput] = useState({
     name: "",
     email: "",
     message: "",
   });
+
   const [error, setError] = useState({
     name: "",
     email: "",
     message: "",
   });
+
+  const [vanish, setVanish] = useState(false);
+
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_KEY!,
   );
 
-  const handleBlur = (input: string, error: string) => {
-    if (input === "") {
+  const handleBlur = (value: string, key: keyof typeof error) => {
+    if (!value) {
       setError((prev) => ({
         ...prev,
-        [error]: `${error.charAt(0).toUpperCase() + error.slice(1)} is required`,
+        [key]: `${key.charAt(0).toUpperCase() + key.slice(1)} is required`,
       }));
       return;
     }
 
     if (
-      error === "email" &&
-      !input.match(/^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/)
+      key === "email" &&
+      !value.match(/^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/)
     ) {
       setError((prev) => ({
         ...prev,
-        [error]: "Valid email address required",
+        email: "Valid email address required",
       }));
       return;
     }
 
-    setError((prev) => ({ ...prev, [error]: "" }));
-    return;
+    setError((prev) => ({ ...prev, [key]: "" }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const errors: Partial<{ name: string; email: string; message: string }> =
-      {};
+    const errors: Partial<typeof error> = {};
 
-    Object.keys(input).forEach((key) => {
-      if (input[key as keyof typeof input] === "") {
-        errors[key as keyof typeof input] =
+    (Object.keys(input) as (keyof typeof input)[]).forEach((key) => {
+      if (!input[key]) {
+        errors[key] =
           `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
       }
     });
@@ -399,12 +402,12 @@ export const Form = () => {
       errors.email = "Valid email address required";
     }
 
-    if (Object.keys(errors).length > 0) {
+    if (Object.keys(errors).length) {
       setError((prev) => ({ ...prev, ...errors }));
       return;
     }
 
-    const toastId = toast.loading("Sending Message");
+    const toastId = toast.loading("Sending message");
 
     try {
       const { error } = await supabase.from("messages").insert({
@@ -413,151 +416,164 @@ export const Form = () => {
         message: input.message,
       });
 
-      if (!error) {
-        setInput({ name: "", email: "", message: "" });
-        setDialogOpen(false);
-        toast.success("Message sent", { id: toastId });
-      } else {
+      if (error) {
         toast.error("Failed to send message", { id: toastId });
+        return;
       }
+
+      setVanish(true);
+      toast.success("Message sent", { id: toastId });
+
+      setTimeout(() => {
+        setInput({ name: "", email: "", message: "" });
+        setVanish(false);
+        setDialogOpen(false);
+      }, 600);
     } catch {
-      toast.error("Failed to send message, database or server error", {
-        id: toastId,
-      });
+      toast.error("Server or database error", { id: toastId });
     }
   };
 
-  const handleDialog = (open: boolean) => {
+  const handleDialogChange = (open: boolean) => {
     setDialogOpen(open);
+
     if (!open) {
-      setError({
-        name: "",
-        email: "",
-        message: "",
-      });
+      setError({ name: "", email: "", message: "" });
+      setVanish(false);
     }
   };
 
   return (
-    <>
-      <section className="flex flex-col gap-4">
-        <span className="text-lg">Get in touch</span>
-        <Dialog open={dialogOpen} onOpenChange={handleDialog}>
-          <DialogTrigger asChild>
-            <Button aria-label="contact" className="w-16">
-              <Mail />
-            </Button>
-          </DialogTrigger>
-          <DialogContent
-            onOpenAutoFocus={(e) => e.preventDefault()}
-            className="rounded-none"
-          >
-            <DialogHeader>
-              <DialogTitle>Contact</DialogTitle>
-              <DialogDescription>
-                Enter your information below to get in touch
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} action="POST" noValidate>
-              <FieldGroup>
-                <FieldSet>
-                  <Field>
-                    <div className="flex h-5 justify-between">
-                      <FieldLabel htmlFor="name">
-                        Name <span className="text-red-600">*</span>
-                      </FieldLabel>
-                      <span className="text-sm font-medium text-red-600 transition-all duration-75">
-                        {error.name}
-                      </span>
-                    </div>
-                    <Input
-                      className={
-                        error.name !== ""
-                          ? "focus-visible:ring-offset-background border-2 border-red-600 ring-2 ring-transparent transition-all duration-75 focus-visible:ring-red-600 focus-visible:ring-offset-2"
-                          : undefined
-                      }
-                      onChange={(e) =>
-                        setInput((prev) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }))
-                      }
-                      value={input.name}
-                      onBlur={() => handleBlur(input.name, "name")}
-                      id="name"
-                      name="name"
-                      placeholder="John Smith"
-                    />
-                  </Field>
-                  <Field>
-                    <div className="flex h-5 justify-between">
-                      <FieldLabel htmlFor="email">
-                        Email <span className="text-red-600">*</span>
-                      </FieldLabel>
-                      <span className="text-sm font-medium text-red-600 transition-all duration-75">
-                        {error.email}
-                      </span>
-                    </div>
-                    <Input
-                      className={
-                        error.email !== ""
-                          ? "focus-visible:ring-offset-background border-2 border-red-600 ring-2 ring-transparent transition-all duration-75 focus-visible:ring-red-600 focus-visible:ring-offset-2"
-                          : undefined
-                      }
-                      onChange={(e) =>
-                        setInput((prev) => ({
-                          ...prev,
-                          email: e.target.value,
-                        }))
-                      }
-                      value={input.email}
-                      onBlur={() => handleBlur(input.email, "email")}
-                      placeholder="johnsmith@mail.com"
-                      id="email"
-                      name="email"
-                    />
-                  </Field>
-                  <Field>
-                    <div className="flex h-5 justify-between">
-                      <FieldLabel htmlFor="message">
-                        Message <span className="text-red-600">*</span>
-                      </FieldLabel>
-                      <span className="text-sm font-medium text-red-600 transition-all duration-75">
-                        {error.message}
-                      </span>
-                    </div>
-                    <Textarea
-                      placeholder="Message"
-                      className={
-                        error.message !== ""
-                          ? "focus-visible:ring-offset-background border-2 border-red-600 ring-2 ring-transparent transition-all duration-75 focus-visible:ring-red-600 focus-visible:ring-offset-2"
-                          : undefined
-                      }
-                      onChange={(e) =>
-                        setInput((prev) => ({
-                          ...prev,
-                          message: e.target.value,
-                        }))
-                      }
-                      value={input.message}
-                      onBlur={() => handleBlur(input.message, "message")}
-                      id="message"
-                      name="message"
-                    />
-                  </Field>
-                  <DialogFooter>
-                    <DialogClose asChild>
-                      <Button variant="outline">Cancel</Button>
-                    </DialogClose>
-                    <Button type="submit">Send</Button>
-                  </DialogFooter>
-                </FieldSet>
-              </FieldGroup>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </section>
-    </>
+    <section className="flex flex-col gap-4">
+      <span className="text-lg">Get in touch</span>
+      <Dialog open={dialogOpen} onOpenChange={handleDialogChange}>
+        <DialogTrigger asChild>
+          <Button aria-label="contact" className="w-16">
+            <Mail />
+          </Button>
+        </DialogTrigger>
+        <DialogContent
+          onOpenAutoFocus={(e) => e.preventDefault()}
+          className="rounded-none"
+        >
+          <DialogHeader>
+            <DialogTitle>Contact</DialogTitle>
+            <DialogDescription>
+              Enter your information below to get in touch
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} noValidate>
+            <FieldGroup>
+              <FieldSet>
+                <Field>
+                  <div className="flex h-5 justify-between">
+                    <FieldLabel htmlFor="name">
+                      Name <span className="text-red-600">*</span>
+                    </FieldLabel>
+                    <span className="text-sm font-medium text-red-600">
+                      {error.name}
+                    </span>
+                  </div>
+                  <Input
+                    id="name"
+                    name="name"
+                    placeholder="John Smith"
+                    value={input.name}
+                    vanishOnClear={vanish}
+                    onClearComplete={() =>
+                      setInput((prev) => ({ ...prev, name: "" }))
+                    }
+                    onChange={(e) =>
+                      setInput((prev) => ({
+                        ...prev,
+                        name: e.target.value,
+                      }))
+                    }
+                    onBlur={() => handleBlur(input.name, "name")}
+                    className={
+                      error.name
+                        ? "border-2 border-red-600 focus-visible:ring-red-600"
+                        : undefined
+                    }
+                  />
+                </Field>
+                <Field>
+                  <div className="flex h-5 justify-between">
+                    <FieldLabel htmlFor="email">
+                      Email <span className="text-red-600">*</span>
+                    </FieldLabel>
+                    <span className="text-sm font-medium text-red-600">
+                      {error.email}
+                    </span>
+                  </div>
+                  <Input
+                    id="email"
+                    name="email"
+                    placeholder="johnsmith@mail.com"
+                    value={input.email}
+                    vanishOnClear={vanish}
+                    onClearComplete={() =>
+                      setInput((prev) => ({ ...prev, email: "" }))
+                    }
+                    onChange={(e) =>
+                      setInput((prev) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }))
+                    }
+                    onBlur={() => handleBlur(input.email, "email")}
+                    className={
+                      error.email
+                        ? "border-2 border-red-600 focus-visible:ring-red-600"
+                        : undefined
+                    }
+                  />
+                </Field>
+                <Field>
+                  <div className="flex h-5 justify-between">
+                    <FieldLabel htmlFor="message">
+                      Message <span className="text-red-600">*</span>
+                    </FieldLabel>
+                    <span className="text-sm font-medium text-red-600">
+                      {error.message}
+                    </span>
+                  </div>
+
+                  <Textarea
+                    id="message"
+                    name="message"
+                    placeholder="Message"
+                    value={input.message}
+                    vanishOnClear={vanish}
+                    onClearComplete={() =>
+                      setInput((prev) => ({ ...prev, message: "" }))
+                    }
+                    onChange={(e) =>
+                      setInput((prev) => ({
+                        ...prev,
+                        message: e.target.value,
+                      }))
+                    }
+                    onBlur={() => handleBlur(input.message, "message")}
+                    className={
+                      error.message
+                        ? "border-2 border-red-600 focus-visible:ring-red-600"
+                        : undefined
+                    }
+                  />
+                </Field>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant="outline">Cancel</Button>
+                  </DialogClose>
+                  <Button type="submit">Send</Button>
+                </DialogFooter>
+              </FieldSet>
+            </FieldGroup>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </section>
   );
 };
 
