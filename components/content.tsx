@@ -27,7 +27,14 @@ import {
   DialogFooter,
   DialogDescription,
 } from "@/components/ui/dialog";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -94,169 +101,189 @@ export const Header = () => {
   );
 };
 
+const stackItems = [
+  { src: "/react-1-logo-svgrepo-com.svg", title: "React" },
+  { src: "/next-js.svg", srcDark: "/next-js-dark.svg", title: "Next.js" },
+  { src: "/javascript-svgrepo-com.svg", title: "Javascript" },
+  { src: "/html-5-svgrepo-com.svg", title: "HTML" },
+  { src: "/css-3-svgrepo-com.svg", title: "CSS" },
+  { src: "/Vitest--Streamline-Svg-Logos.svg", title: "Vitest" },
+  { src: "/node-js-svgrepo-com.svg", title: "Node.js" },
+  { src: "/typescript-svgrepo-com.svg", title: "Typescript" },
+  {
+    src: "/express-svgrepo-com.svg",
+    srcDark: "/express-svgrepo-com-dark.svg",
+    title: "Express",
+  },
+  {
+    src: "/github-svgrepo-com.svg",
+    srcDark: "/github-svgrepo-com-dark.svg",
+    title: "Github",
+  },
+  { src: "/git-icon-logo-svgrepo-com.svg", title: "Git" },
+  { src: "/vitejs-svgrepo-com.svg", title: "Vite" },
+  { src: "/jest-svgrepo-com.svg", title: "Jest" },
+  { src: "/tailwind-svgrepo-com.svg", title: "Tailwind" },
+  { src: "/react-router-svgrepo-com.svg", title: "React router" },
+  { src: "/sass-svgrepo-com.svg", title: "Sass" },
+  { src: "/scss-svgrepo-com.svg", title: "SCSS" },
+  { src: "/postgresql-icon.svg", title: "PostgresSQL" },
+  {
+    src: "/prisma-svgrepo-com.svg",
+    srcDark: "/prisma-svgrepo-com-dark.svg",
+    title: "Prisma",
+  },
+  { src: "/supabase-logo-icon.png", title: "Supabase" },
+  {
+    src: "/shadcn-ui-seeklogo.svg",
+    srcDark: "/shadcn-ui-seeklogo-dark.svg",
+    title: "shadcn/ui",
+  },
+  {
+    src: "/aws-svgrepo-com.svg",
+    srcDark: "/aws-svgrepo-com-dark.svg",
+    title: "aws",
+  },
+];
+
 export const Stack = () => {
   const { darkMode } = useTheme();
+  const [hovered, setHovered] = useState<number | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
+
   return (
-    <>
-      <section className="flex flex-col gap-4">
-        <span className="text-lg">Tech Stack</span>
-        <ul className="flex flex-wrap gap-2">
-          <StackButton src="/react-1-logo-svgrepo-com.svg" title="React" />
+    <section className="flex flex-col gap-4">
+      <span className="text-lg">Tech Stack</span>
+      <ul
+        className="flex flex-wrap gap-2"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => {
+          setIsHovering(false);
+          setHovered(null);
+        }}
+      >
+        {stackItems.map((item, index) => (
           <StackButton
-            src={darkMode ? "/next-js-dark.svg" : "/next-js.svg"}
-            title="Next.js"
+            key={item.title}
+            src={darkMode && item.srcDark ? item.srcDark : item.src}
+            title={item.title}
+            index={index}
+            hovered={hovered}
+            setHovered={setHovered}
+            isHovering={isHovering}
           />
-          <StackButton src="/javascript-svgrepo-com.svg" title="Javascript" />
-          <StackButton src="/html-5-svgrepo-com.svg" title="HTML" />
-          <StackButton src="/css-3-svgrepo-com.svg" title="CSS" />
-          <StackButton src="/Vitest--Streamline-Svg-Logos.svg" title="Vitest" />
-          <StackButton src="/node-js-svgrepo-com.svg" title="Node.js" />
-          <StackButton src="/typescript-svgrepo-com.svg" title="Typescript" />
-          <StackButton
-            src={
-              darkMode
-                ? "/express-svgrepo-com-dark.svg"
-                : "/express-svgrepo-com.svg"
-            }
-            title="Express"
-          />
-          <StackButton
-            src={
-              darkMode
-                ? "/github-svgrepo-com-dark.svg"
-                : "/github-svgrepo-com.svg"
-            }
-            title="Github"
-          />
-          <StackButton src="/git-icon-logo-svgrepo-com.svg" title="Git" />
-          <StackButton src="/vitejs-svgrepo-com.svg" title="Vite" />
-          <StackButton src="/jest-svgrepo-com.svg" title="Jest" />
-          <StackButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
-          <StackButton
-            src="/react-router-svgrepo-com.svg"
-            title="React router"
-          />
-          <StackButton src="/sass-svgrepo-com.svg" title="Sass" />
-          <StackButton src="/scss-svgrepo-com.svg" title="SCSS" />
-          <StackButton src="/postgresql-icon.svg" title="PostgresSQL" />
-          <StackButton
-            src={
-              darkMode
-                ? "/prisma-svgrepo-com-dark.svg"
-                : "/prisma-svgrepo-com.svg"
-            }
-            title="Prisma"
-          />
-          <StackButton src="/supabase-logo-icon.png" title="Supabase" />
-          <StackButton
-            src={
-              darkMode
-                ? "/shadcn-ui-seeklogo-dark.svg"
-                : "/shadcn-ui-seeklogo.svg"
-            }
-            title="shadcn/ui"
-          />
-        </ul>
-      </section>
-    </>
+        ))}
+      </ul>
+    </section>
   );
 };
 
-const StackButton = ({ src, title }: { src: string; title: string }) => {
+const StackButton = ({
+  src,
+  title,
+  index,
+  hovered,
+  setHovered,
+  isHovering,
+}: {
+  src: string;
+  title: string;
+  index: number;
+  hovered: number | null;
+  setHovered: React.Dispatch<React.SetStateAction<number | null>>;
+  isHovering: boolean;
+}) => {
   return (
-    <>
-      <li>
-        <Card className="flex w-fit rounded-none py-2">
-          <CardContent className="flex items-center gap-2">
-            <Image height={20} width={20} src={src} alt={title} />
-            <span>{title}</span>
-          </CardContent>
-        </Card>
-      </li>
-    </>
-  );
-};
-
-const ProjectButton = ({ src, title }: { src: string; title: string }) => {
-  return (
-    <>
-      <li>
-        <Card className="flex w-fit rounded-none py-2">
-          <CardContent className="flex items-center gap-2 px-2">
-            <Image height={15} width={15} src={src} alt={title} />
-            <span className="text-xs">{title}</span>
-          </CardContent>
-        </Card>
-      </li>
-    </>
+    <li onMouseEnter={() => setHovered(index)}>
+      <Card
+        className={cn(
+          "flex w-fit rounded-none py-2 transition-all duration-300 ease-out",
+          isHovering &&
+            hovered !== null &&
+            hovered !== index &&
+            "scale-[0.98] blur-sm",
+        )}
+      >
+        <CardContent className="flex items-center gap-2">
+          <Image height={20} width={20} src={src} alt={title} />
+          <span>{title}</span>
+        </CardContent>
+      </Card>
+    </li>
   );
 };
 
 export const Projects = () => {
   const { darkMode } = useTheme();
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  const projectsData = [
+    {
+      title: "React Input CLI",
+      description:
+        "CLI based on shadcn's component library CLI with formatted input components based on Cleave JS.",
+      tech: [
+        { src: "/javascript-svgrepo-com.svg", title: "Javascript" },
+        { src: "/react-1-logo-svgrepo-com.svg", title: "React" },
+        { src: "/typescript-svgrepo-com.svg", title: "Typescript" },
+        { src: "/vitejs-svgrepo-com.svg", title: "Vite" },
+        { src: "/tailwind-svgrepo-com.svg", title: "Tailwind" },
+      ],
+    },
+    {
+      title: "Blog",
+      description:
+        "Static React site with react router for page routing based on jekyll with posts written in json instead of markdown.",
+      tech: [
+        { src: "/react-1-logo-svgrepo-com.svg", title: "React" },
+        { src: "/typescript-svgrepo-com.svg", title: "Typescript" },
+        { src: "/vitejs-svgrepo-com.svg", title: "Vite" },
+        { src: "/tailwind-svgrepo-com.svg", title: "Tailwind" },
+        { src: "/react-router-svgrepo-com.svg", title: "React router" },
+      ],
+    },
+    {
+      title: "Personal website",
+      description:
+        "Simple next personal website with shadcn components and supabase postgres database for storing messages.",
+      tech: [
+        { src: "/next-js.svg", srcDark: "/next-js-dark.svg", title: "Next.js" },
+        { src: "/typescript-svgrepo-com.svg", title: "Typescript" },
+        { src: "/tailwind-svgrepo-com.svg", title: "Tailwind" },
+        { src: "/postgresql-icon.svg", title: "PostgresSQL" },
+        {
+          src: "/shadcn-ui-seeklogo.svg",
+          srcDark: "/shadcn-ui-seeklogo-dark.svg",
+          title: "shadcn/ui",
+        },
+      ],
+    },
+  ];
+
   return (
-    <>
-      <section className="flex w-full flex-col gap-4">
-        <h4 className="text-lg">Projects</h4>
-        <ul className="flex w-full flex-col gap-4 md:flex-row">
+    <section className="flex w-full flex-col gap-4">
+      <h4 className="text-lg">Projects</h4>
+      <ul className="flex w-full flex-col gap-4 md:flex-row">
+        {projectsData.map((project, index) => (
           <ProjectCard
-            title="React Input CLI"
-            description="CLI based on shadcn's component library CLI with formatted input components based on Cleave JS."
+            key={project.title}
+            title={project.title}
+            description={project.description}
+            index={index}
+            hovered={hovered}
+            setHovered={setHovered}
           >
-            <ProjectButton
-              src="/javascript-svgrepo-com.svg"
-              title="Javascript"
-            />
-            <ProjectButton src="/react-1-logo-svgrepo-com.svg" title="React" />
-            <ProjectButton
-              src="/typescript-svgrepo-com.svg"
-              title="Typescript"
-            />
-            <ProjectButton src="/vitejs-svgrepo-com.svg" title="Vite" />
-            <ProjectButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
+            {project.tech.map((tech) => (
+              <ProjectButton
+                key={tech.title}
+                src={darkMode && tech.srcDark ? tech.srcDark : tech.src}
+                title={tech.title}
+              />
+            ))}
           </ProjectCard>
-          <ProjectCard
-            title="Blog"
-            description="Static React site with react router for page routing based on jekyll with posts written in json instead of markdown."
-          >
-            <ProjectButton src="/react-1-logo-svgrepo-com.svg" title="React" />
-            <ProjectButton
-              src="/typescript-svgrepo-com.svg"
-              title="Typescript"
-            />
-            <ProjectButton src="/vitejs-svgrepo-com.svg" title="Vite" />
-            <ProjectButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
-            <ProjectButton
-              src="/react-router-svgrepo-com.svg"
-              title="React router"
-            />
-          </ProjectCard>
-          <ProjectCard
-            title="Personal website"
-            description="Simple next personal website with shadcn components and supabase postgres database for storing messages."
-          >
-            <ProjectButton
-              src={darkMode ? "/next-js-dark.svg" : "/next-js.svg"}
-              title="Next.js"
-            />
-            <ProjectButton
-              src="/typescript-svgrepo-com.svg"
-              title="Typescript"
-            />
-            <ProjectButton src="/tailwind-svgrepo-com.svg" title="Tailwind" />
-            <ProjectButton src="/postgresql-icon.svg" title="PostgresSQL" />
-            <ProjectButton
-              src={
-                darkMode
-                  ? "/shadcn-ui-seeklogo-dark.svg"
-                  : "/shadcn-ui-seeklogo.svg"
-              }
-              title="shadcn/ui"
-            />
-          </ProjectCard>
-        </ul>
-      </section>
-    </>
+        ))}
+      </ul>
+    </section>
   );
 };
 
@@ -264,14 +291,28 @@ const ProjectCard = ({
   title,
   description,
   children,
+  index,
+  hovered,
+  setHovered,
 }: {
   title: string;
   description: string;
   children: ReactNode;
+  index: number;
+  hovered: number | null;
+  setHovered: React.Dispatch<React.SetStateAction<number | null>>;
 }) => {
   return (
-    <>
-      <Card className="w-full rounded-none">
+    <li
+      onMouseEnter={() => setHovered(index)}
+      onMouseLeave={() => setHovered(null)}
+    >
+      <Card
+        className={cn(
+          "h-full w-full rounded-none transition-all duration-300 ease-out",
+          hovered !== null && hovered !== index && "blur-sm",
+        )}
+      >
         <CardHeader>
           <CardTitle>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
@@ -280,7 +321,20 @@ const ProjectCard = ({
           <ul className="flex flex-wrap gap-2">{children}</ul>
         </CardContent>
       </Card>
-    </>
+    </li>
+  );
+};
+
+const ProjectButton = ({ src, title }: { src: string; title: string }) => {
+  return (
+    <li>
+      <Card className="flex w-fit rounded-none py-2">
+        <CardContent className="flex items-center gap-2 px-2">
+          <Image height={15} width={15} src={src} alt={title} />
+          <span className="text-xs">{title}</span>
+        </CardContent>
+      </Card>
+    </li>
   );
 };
 
