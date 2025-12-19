@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Sun, Moon, MapPin, Mail } from "lucide-react";
+import { Sun, Moon, MapPin, Mail, SquareArrowOutUpRight } from "lucide-react";
 import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -27,12 +27,6 @@ import {
   DialogFooter,
   DialogDescription,
 } from "@/components/ui/dialog";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -222,6 +216,8 @@ export const Projects = () => {
       title: "React Input CLI",
       description:
         "CLI based on shadcn's component library CLI with formatted input components based on Cleave JS.",
+      live: "",
+      repo: "https://github.com/jjdavenport/react-input",
       tech: [
         { src: "/javascript-svgrepo-com.svg", title: "Javascript" },
         { src: "/react-1-logo-svgrepo-com.svg", title: "React" },
@@ -234,6 +230,8 @@ export const Projects = () => {
       title: "Blog",
       description:
         "Static React site with react router for page routing based on jekyll with posts written in json instead of markdown.",
+      live: "https://jjdavenport.github.io/blog/",
+      repo: "https://github.com/jjdavenport/blog",
       tech: [
         { src: "/react-1-logo-svgrepo-com.svg", title: "React" },
         { src: "/typescript-svgrepo-com.svg", title: "Typescript" },
@@ -246,6 +244,8 @@ export const Projects = () => {
       title: "Personal website",
       description:
         "Simple next personal website with shadcn components and supabase postgres database for storing messages.",
+      live: "",
+      repo: "https://github.com/jjdavenport/personal-website-main",
       tech: [
         { src: "/next-js.svg", srcDark: "/next-js-dark.svg", title: "Next.js" },
         { src: "/typescript-svgrepo-com.svg", title: "Typescript" },
@@ -269,6 +269,8 @@ export const Projects = () => {
             key={project.title}
             title={project.title}
             description={project.description}
+            live={project.live}
+            repo={project.repo}
             index={index}
             hovered={hovered}
             setHovered={setHovered}
@@ -294,6 +296,8 @@ const ProjectCard = ({
   index,
   hovered,
   setHovered,
+  live,
+  repo,
 }: {
   title: string;
   description: string;
@@ -301,6 +305,8 @@ const ProjectCard = ({
   index: number;
   hovered: number | null;
   setHovered: React.Dispatch<React.SetStateAction<number | null>>;
+  live: string;
+  repo: string;
 }) => {
   return (
     <li
@@ -314,7 +320,40 @@ const ProjectCard = ({
         )}
       >
         <CardHeader>
-          <CardTitle>{title}</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle>{title}</CardTitle>
+            <div className="flex gap-2">
+              <Link
+                aria-label={`${title} repo`}
+                target="_blank"
+                className={cn(
+                  "text-muted-foreground hover:text-foreground transition-all duration-300",
+                  hovered === index ? "opacity-100" : "opacity-0",
+                )}
+                href={repo}
+              >
+                <svg
+                  className="size-[18px]"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M12 0.297C5.37 0.297 0 5.67 0 12.297c0 5.302 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                </svg>
+              </Link>
+              <Link
+                aria-label={title}
+                target="_blank"
+                href={live}
+                className={cn(
+                  "text-muted-foreground hover:text-foreground text-sm transition-all duration-300",
+                  hovered === index ? "opacity-100" : "opacity-0",
+                )}
+              >
+                <SquareArrowOutUpRight className="size-5" />
+              </Link>
+            </div>
+          </div>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent>
