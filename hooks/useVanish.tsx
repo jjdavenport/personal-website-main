@@ -11,7 +11,7 @@ type Particle = {
 
 export function useVanish(value: string, onClear: () => void) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const [animating, setAnimating] = useState(false);
 
