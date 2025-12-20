@@ -8,7 +8,13 @@ import {
   createContext,
 } from "react";
 
-const themeContext = createContext(false);
+type ThemeContextType = {
+  darkMode: boolean;
+  setDarkMode: () => void;
+  isTransitioning: boolean;
+};
+
+const themeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [darkMode, setDarkMode] = useState(false);
@@ -52,5 +58,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useTheme = () => {
-  return useContext(themeContext);
+  const context = useContext(themeContext);
+  if (context === undefined) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
 };
