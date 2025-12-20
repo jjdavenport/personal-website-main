@@ -5,16 +5,7 @@ import { cn } from "@/lib/utils";
 import { useVanish } from "@/hooks/useVanish";
 
 interface InputProps extends React.ComponentProps<"input"> {
-  /**
-   * When true, triggers the vanish animation.
-   * Should be controlled by the parent (Form).
-   */
   vanishOnClear?: boolean;
-
-  /**
-   * Called AFTER the vanish animation finishes.
-   * Use this to actually clear form state.
-   */
   onClearComplete?: () => void;
 }
 
@@ -26,16 +17,11 @@ function Input({
   onClearComplete,
   ...props
 }: InputProps) {
-  const { canvasRef, inputRef, animating, vanish } = useVanish(
-    String(value),
-    () => {
+  const { canvasRef, inputRef, animating, vanish } =
+    useVanish<HTMLInputElement>(String(value), () => {
       onClearComplete?.();
-    },
-  );
+    });
 
-  /**
-   * Run animation ONLY when parent explicitly asks for it
-   */
   React.useEffect(() => {
     if (vanishOnClear && value) {
       vanish();
@@ -44,7 +30,6 @@ function Input({
 
   return (
     <div className="relative">
-      {/* Canvas layer */}
       <canvas
         ref={canvasRef}
         className={cn(
@@ -53,7 +38,6 @@ function Input({
         )}
       />
 
-      {/* Input */}
       <input
         ref={inputRef}
         type={type}

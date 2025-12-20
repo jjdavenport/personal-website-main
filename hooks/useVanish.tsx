@@ -9,9 +9,12 @@ type Particle = {
   color: string;
 };
 
-export function useVanish(value: string, onClear: () => void) {
+export function useVanish<T extends HTMLInputElement | HTMLTextAreaElement>(
+  value: string,
+  onClear: () => void,
+) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+  const inputRef = useRef<T>(null);
   const particlesRef = useRef<Particle[]>([]);
   const [animating, setAnimating] = useState(false);
 
