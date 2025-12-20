@@ -45,7 +45,7 @@ function Textarea({
       <canvas
         ref={canvasRef}
         className={cn(
-          "pointer-events-none absolute origin-top-left scale-50",
+          "pointer-events-none absolute origin-top-left scale-50 pt-2 invert dark:invert-0",
           animating ? "opacity-100" : "opacity-0",
         )}
       />
