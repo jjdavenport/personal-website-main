@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <style>
+    /* Light mode (default) */
+    .bg { fill: #ffffff; }
+    .fg { fill: #000000; }
+
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #000000; }
+      .fg { fill: #ffffff; }
+    }
+  </style>
+
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" class="bg"/>
+
+  <!-- Curly brackets (1.5x scale) -->
+  <g class="fg" transform="translate(256, 256) scale(1.5) translate(-256, -256)">
+    <!-- Left bracket { -->
+    <path d="M 220 140 C 180 140 170 150 170 180 L 170 215 C 170 235 165 245 145 248 L 140 250 L 145 252 C 165 255 170 265 170 285 L 170 332 C 170 362 180 372 220 372 L 220 352 C 200 352 190 347 190 332 L 190 285 C 190 262 182 252 162 250 C 182 248 190 238 190 215 L 190 180 C 190 165 200 160 220 160 Z"/>
+
+    <!-- Right bracket } -->
+    <path d="M 292 140 L 292 160 C 312 160 322 165 322 180 L 322 215 C 322 238 330 248 350 250 C 330 252 322 262 322 285 L 322 332 C 322 347 312 352 292 352 L 292 372 C 332 372 342 362 342 332 L 342 285 C 342 265 347 255 367 252 L 372 250 L 367 248 C 347 245 342 235 342 215 L 342 180 C 342 150 332 140 292 140 Z"/>
+  </g>
+</svg>
