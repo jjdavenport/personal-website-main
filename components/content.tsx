@@ -33,10 +33,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const Wrapper = ({ children }: { children: ReactNode }) => {
+  const { isTransitioning } = useTheme();
+
   return (
-    <>
-      <div className="flex min-h-screen flex-col items-center">{children}</div>
-    </>
+    <div
+      className={`flex min-h-screen flex-col items-center transition-all duration-600 ${
+        isTransitioning ? "blur-sm" : "blur-0"
+      }`}
+    >
+      {children}
+    </div>
   );
 };
 
@@ -333,7 +339,7 @@ const ProjectCard = ({
                 href={repo}
               >
                 <svg
-                  className="size-[18px]"
+                  className="size-4.5"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg"
