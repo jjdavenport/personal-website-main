@@ -14,9 +14,9 @@ import { ThemeProvider } from "@/hooks/theme-provider";
 export default function Home() {
   return (
     <ThemeProvider>
+      <Toaster />
+      <Nav />
       <Wrapper>
-        <Toaster />
-        <Nav />
         <Container>
           <Header />
           <Stack />

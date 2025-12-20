@@ -37,7 +37,7 @@ export const Wrapper = ({ children }: { children: ReactNode }) => {
 
   return (
     <div
-      className={`flex min-h-screen flex-col items-center transition-all duration-600 ${
+      className={`flex min-h-[calc(100vh-73px)] flex-col items-center transition-all duration-600 ${
         isTransitioning ? "blur-sm" : "blur-0"
       }`}
     >
@@ -45,7 +45,6 @@ export const Wrapper = ({ children }: { children: ReactNode }) => {
     </div>
   );
 };
-
 export const Container = ({ children }: { children: ReactNode }) => {
   return (
     <>
