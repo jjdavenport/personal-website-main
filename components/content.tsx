@@ -101,55 +101,55 @@ export const Header = () => {
   );
 };
 
-const stackItems = [
-  { src: "/react-1-logo-svgrepo-com.svg", title: "React" },
-  { src: "/next-js.svg", srcDark: "/next-js-dark.svg", title: "Next.js" },
-  { src: "/javascript-svgrepo-com.svg", title: "Javascript" },
-  { src: "/html-5-svgrepo-com.svg", title: "HTML" },
-  { src: "/css-3-svgrepo-com.svg", title: "CSS" },
-  { src: "/Vitest--Streamline-Svg-Logos.svg", title: "Vitest" },
-  { src: "/node-js-svgrepo-com.svg", title: "Node.js" },
-  { src: "/typescript-svgrepo-com.svg", title: "Typescript" },
-  {
-    src: "/express-svgrepo-com.svg",
-    srcDark: "/express-svgrepo-com-dark.svg",
-    title: "Express",
-  },
-  {
-    src: "/github-svgrepo-com.svg",
-    srcDark: "/github-svgrepo-com-dark.svg",
-    title: "Github",
-  },
-  { src: "/git-icon-logo-svgrepo-com.svg", title: "Git" },
-  { src: "/vitejs-svgrepo-com.svg", title: "Vite" },
-  { src: "/jest-svgrepo-com.svg", title: "Jest" },
-  { src: "/tailwind-svgrepo-com.svg", title: "Tailwind" },
-  { src: "/react-router-svgrepo-com.svg", title: "React router" },
-  { src: "/sass-svgrepo-com.svg", title: "Sass" },
-  { src: "/scss-svgrepo-com.svg", title: "SCSS" },
-  { src: "/postgresql-icon.svg", title: "PostgresSQL" },
-  {
-    src: "/prisma-svgrepo-com.svg",
-    srcDark: "/prisma-svgrepo-com-dark.svg",
-    title: "Prisma",
-  },
-  { src: "/supabase-logo-icon.png", title: "Supabase" },
-  {
-    src: "/shadcn-ui-seeklogo.svg",
-    srcDark: "/shadcn-ui-seeklogo-dark.svg",
-    title: "shadcn/ui",
-  },
-  {
-    src: "/aws-svgrepo-com.svg",
-    srcDark: "/aws-svgrepo-com-dark.svg",
-    title: "aws",
-  },
-];
-
 export const Stack = () => {
   const { darkMode } = useTheme();
   const [hovered, setHovered] = useState<number | null>(null);
   const [isHovering, setIsHovering] = useState(false);
+
+  const stackItems = [
+    { src: "/react-1-logo-svgrepo-com.svg", title: "React" },
+    { src: "/next-js.svg", srcDark: "/next-js-dark.svg", title: "Next.js" },
+    { src: "/javascript-svgrepo-com.svg", title: "Javascript" },
+    { src: "/html-5-svgrepo-com.svg", title: "HTML" },
+    { src: "/css-3-svgrepo-com.svg", title: "CSS" },
+    { src: "/Vitest--Streamline-Svg-Logos.svg", title: "Vitest" },
+    { src: "/node-js-svgrepo-com.svg", title: "Node.js" },
+    { src: "/typescript-svgrepo-com.svg", title: "Typescript" },
+    {
+      src: "/express-svgrepo-com.svg",
+      srcDark: "/express-svgrepo-com-dark.svg",
+      title: "Express",
+    },
+    {
+      src: "/github-svgrepo-com.svg",
+      srcDark: "/github-svgrepo-com-dark.svg",
+      title: "Github",
+    },
+    { src: "/git-icon-logo-svgrepo-com.svg", title: "Git" },
+    { src: "/vitejs-svgrepo-com.svg", title: "Vite" },
+    { src: "/jest-svgrepo-com.svg", title: "Jest" },
+    { src: "/tailwind-svgrepo-com.svg", title: "Tailwind" },
+    { src: "/react-router-svgrepo-com.svg", title: "React router" },
+    { src: "/sass-svgrepo-com.svg", title: "Sass" },
+    { src: "/scss-svgrepo-com.svg", title: "SCSS" },
+    { src: "/postgresql-icon.svg", title: "PostgresSQL" },
+    {
+      src: "/prisma-svgrepo-com.svg",
+      srcDark: "/prisma-svgrepo-com-dark.svg",
+      title: "Prisma",
+    },
+    { src: "/supabase-logo-icon.png", title: "Supabase" },
+    {
+      src: "/shadcn-ui-seeklogo.svg",
+      srcDark: "/shadcn-ui-seeklogo-dark.svg",
+      title: "shadcn/ui",
+    },
+    {
+      src: "/aws-svgrepo-com.svg",
+      srcDark: "/aws-svgrepo-com-dark.svg",
+      title: "aws",
+    },
+  ];
 
   return (
     <section className="flex flex-col gap-4">
@@ -194,7 +194,14 @@ const StackButton = ({
   isHovering: boolean;
 }) => {
   return (
-    <li onMouseEnter={() => setHovered(index)}>
+    <li
+      onMouseEnter={() => setHovered(index)}
+      className="animate-slide-in-brick opacity-0"
+      style={{
+        animationDelay: `${index * 50}ms`,
+        animationFillMode: "forwards",
+      }}
+    >
       <Card
         className={cn(
           "flex w-fit rounded-none py-2 transition-all duration-300 ease-out",
@@ -266,6 +273,8 @@ export const Projects = () => {
     },
   ];
 
+  const totalProjects = projectsData.length;
+
   return (
     <section className="flex w-full flex-col gap-4">
       <h4 className="text-lg">Projects</h4>
@@ -280,6 +289,7 @@ export const Projects = () => {
             index={index}
             hovered={hovered}
             setHovered={setHovered}
+            totalProjects={totalProjects}
           >
             {project.tech.map((tech) => (
               <ProjectButton
@@ -304,6 +314,7 @@ const ProjectCard = ({
   setHovered,
   live,
   repo,
+  totalProjects,
 }: {
   title: string;
   description: string;
@@ -313,11 +324,19 @@ const ProjectCard = ({
   setHovered: React.Dispatch<React.SetStateAction<number | null>>;
   live: string;
   repo: string;
+  totalProjects: number;
 }) => {
+  const reversedIndex = totalProjects - 1 - index;
   return (
     <li
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
+      className="animate-slide-in-card"
+      style={{
+        animationDelay: `${reversedIndex * 150}ms`,
+        opacity: 0,
+        animationFillMode: "forwards",
+      }}
     >
       <Card
         className={cn(
