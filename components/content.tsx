@@ -196,10 +196,12 @@ const StackButton = ({
     <li
       onMouseEnter={() => setHovered(index)}
       className="animate-slide-in-brick opacity-0"
-      style={{
-        animationDelay: `${index * 50}ms`,
-        animationFillMode: "forwards",
-      }}
+      style={
+        {
+          "--item-delay": `${index * 50}ms`,
+          animationFillMode: "forwards",
+        } as React.CSSProperties
+      }
     >
       <Card
         className={cn(
@@ -263,6 +265,7 @@ export const Projects = () => {
         { src: "/typescript-svgrepo-com.svg", title: "Typescript" },
         { src: "/tailwind-svgrepo-com.svg", title: "Tailwind" },
         { src: "/postgresql-icon.svg", title: "PostgresSQL" },
+        { src: "/supabase-logo-icon.png", title: "Supabase" },
         {
           src: "/shadcn-ui-seeklogo.svg",
           srcDark: "/shadcn-ui-seeklogo-dark.svg",
@@ -331,11 +334,13 @@ const ProjectCard = ({
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
       className="animate-slide-in-card"
-      style={{
-        animationDelay: `${reversedIndex * 150}ms`,
-        opacity: 0,
-        animationFillMode: "forwards",
-      }}
+      style={
+        {
+          "--card-delay": `${reversedIndex * 150}ms`,
+          opacity: 0,
+          animationFillMode: "forwards",
+        } as React.CSSProperties
+      }
     >
       <Card
         className={cn(
