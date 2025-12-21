@@ -29,10 +29,14 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const root = document.documentElement.classList;
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+
     if (darkMode) {
       root.add("dark");
+      metaThemeColor?.setAttribute("content", "#252525");
     } else {
       root.remove("dark");
+      metaThemeColor?.setAttribute("content", "#ffffff");
     }
   }, [darkMode]);
 
