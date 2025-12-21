@@ -34,7 +34,7 @@ import Link from "next/link";
 
 export const Wrapper = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex min-h-[calc(100vh-73px)] flex-col items-center transition-all duration-600">
+    <div className="flex min-h-[calc(100vh-73px)] flex-col items-center">
       {children}
     </div>
   );
@@ -199,7 +199,7 @@ const StackButton = ({
     >
       <Card
         className={cn(
-          "flex w-fit rounded-none py-2 transition-all duration-300 ease-out",
+          "flex w-fit rounded-none py-2 transition-[transform,filter] duration-300 ease-out",
           isHovering &&
             hovered !== null &&
             hovered !== index &&
@@ -338,7 +338,7 @@ const ProjectCard = ({
     >
       <Card
         className={cn(
-          "h-full w-full rounded-none transition-all duration-300 ease-out",
+          "h-full w-full rounded-none transition-[filter] duration-300 ease-out",
           hovered !== null && hovered !== index && "blur-sm",
         )}
       >
@@ -350,7 +350,7 @@ const ProjectCard = ({
                 aria-label={`${title} repo`}
                 target="_blank"
                 className={cn(
-                  "text-muted-foreground hover:text-foreground transition-all duration-300",
+                  "text-muted-foreground hover:text-foreground transition-[opacity,color] duration-300",
                   hovered === index ? "opacity-100" : "opacity-0",
                 )}
                 href={repo}
@@ -370,7 +370,7 @@ const ProjectCard = ({
                   target="_blank"
                   href={live}
                   className={cn(
-                    "text-muted-foreground hover:text-foreground text-sm transition-all duration-300",
+                    "text-muted-foreground hover:text-foreground transition-[opacity,color] duration-300",
                     hovered === index ? "opacity-100" : "opacity-0",
                   )}
                 >
@@ -506,7 +506,6 @@ export const Form = () => {
       setVanish(false);
     }
   };
-
   return (
     <section className="flex flex-col gap-4">
       <span className="text-lg">Get in touch</span>
