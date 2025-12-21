@@ -5,9 +5,6 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Jordan Davenport | Frontend Developer",
   description: "Jordan Davenport | Frontend Developer",
-  icons: {
-    icon: "/favicon.svg",
-  },
 };
 
 const jetBrainsMono = JetBrains_Mono({
@@ -17,11 +14,21 @@ const jetBrainsMono = JetBrains_Mono({
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta
+          name="theme-color"
+          content="#ffffff"
+          media="(prefers-color-scheme: light)"
+        />
+        <meta
+          name="theme-color"
+          content="#252525"
+          media="(prefers-color-scheme: dark)"
+        />
+      </head>
       <body className={`${jetBrainsMono.className} antialiased`}>
         {children}
       </body>
