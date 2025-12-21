@@ -258,7 +258,7 @@ export const Projects = () => {
       title: "Personal website",
       description:
         "Simple next personal website with shadcn components and supabase postgres database for storing messages.",
-      live: "",
+      live: "https://jjdavenport.com",
       repo: "https://github.com/jjdavenport/personal-website-main",
       tech: [
         { src: "/next-js.svg", srcDark: "/next-js-dark.svg", title: "Next.js" },
