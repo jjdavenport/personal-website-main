@@ -327,7 +327,7 @@ const ProjectCard = ({
     <li
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
-      className="animate-slide-in-card"
+      className="animate-slide-in-card flex flex-1"
       style={
         {
           "--card-delay": `${reversedIndex * 150}ms`,
@@ -342,7 +342,7 @@ const ProjectCard = ({
           hovered !== null && hovered !== index && "blur-sm",
         )}
       >
-        <CardHeader>
+        <CardHeader className="md:px-4 lg:px-6">
           <div className="flex items-center justify-between">
             <CardTitle>{title}</CardTitle>
             <div className="flex gap-2">
@@ -381,7 +381,7 @@ const ProjectCard = ({
           </div>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="md:px-4 lg:px-6">
           <ul className="flex flex-wrap gap-2">{children}</ul>
         </CardContent>
       </Card>
