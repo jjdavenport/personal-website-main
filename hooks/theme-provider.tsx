@@ -6,19 +6,18 @@ import {
   useState,
   useEffect,
   createContext,
+  SetStateAction,
 } from "react";
 
 type ThemeContextType = {
   darkMode: boolean;
-  setDarkMode: () => void;
-  isTransitioning: boolean;
+  setDarkMode: React.Dispatch<SetStateAction<boolean>>;
 };
 
 const themeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [darkMode, setDarkMode] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const prefersDarkMode = window.matchMedia(
@@ -40,22 +39,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [darkMode]);
 
-  const toggleTheme = () => {
-    setIsTransitioning(true);
-
-    setTimeout(() => {
-      setDarkMode(!darkMode);
-    }, 300);
-
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 600);
-  };
-
   return (
-    <themeContext.Provider
-      value={{ darkMode, setDarkMode: toggleTheme, isTransitioning }}
-    >
+    <themeContext.Provider value={{ darkMode, setDarkMode }}>
       {children}
     </themeContext.Provider>
   );

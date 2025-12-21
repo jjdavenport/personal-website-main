@@ -33,14 +33,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const Wrapper = ({ children }: { children: ReactNode }) => {
-  const { isTransitioning } = useTheme();
-
   return (
-    <div
-      className={`flex min-h-[calc(100vh-73px)] flex-col items-center transition-all duration-600 ${
-        isTransitioning ? "blur-sm" : "blur-0"
-      }`}
-    >
+    <div className="flex min-h-[calc(100vh-73px)] flex-col items-center transition-all duration-600">
       {children}
     </div>
   );
@@ -64,7 +58,7 @@ export const Nav = () => {
           <Button
             aria-label={darkMode ? "light mode" : "dark mode"}
             className="relative flex h-10 w-10 items-center justify-center"
-            onClick={setDarkMode}
+            onClick={() => setDarkMode(!darkMode)}
           >
             <Sun
               className={`${
