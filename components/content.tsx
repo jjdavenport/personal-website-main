@@ -146,7 +146,7 @@ export const Stack = () => {
 
   return (
     <section className="flex flex-col gap-4">
-      <span className="text-lg">Tech Stack</span>
+      <h4 className="text-lg">Tech Stack</h4>
       <ul
         className="flex flex-wrap gap-2"
         onMouseEnter={() => setIsHovering(true)}
@@ -279,7 +279,7 @@ export const Projects = () => {
 
   return (
     <section className="flex w-full flex-col gap-4">
-      <h4 className="text-lg">Projects</h4>
+      <h5 className="text-lg">Projects</h5>
       <ul className="flex w-full flex-col gap-4 md:flex-row">
         {projectsData.map((project, index) => (
           <ProjectCard
@@ -417,7 +417,7 @@ const ProjectButton = ({ src, title }: { src: string; title: string }) => {
 export const Form = ({ children }: { children: ReactNode }) => {
   return (
     <section className="flex flex-col gap-4">
-      <span className="text-lg">Get in touch</span>
+      <h6 className="text-lg">Get in touch</h6>
       {children}
     </section>
   );
