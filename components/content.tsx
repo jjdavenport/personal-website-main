@@ -207,7 +207,13 @@ const StackButton = ({
         )}
       >
         <CardContent className="flex items-center gap-2">
-          <Image height={20} width={20} src={src} alt={title} />
+          <Image
+            className="size-5 object-contain"
+            height={20}
+            width={20}
+            src={src}
+            alt={title}
+          />
           <span>{title}</span>
         </CardContent>
       </Card>
@@ -394,7 +400,13 @@ const ProjectButton = ({ src, title }: { src: string; title: string }) => {
     <li>
       <Card className="flex w-fit rounded-none py-2">
         <CardContent className="flex items-center gap-2 px-2">
-          <Image height={15} width={15} src={src} alt={title} />
+          <Image
+            className="size-4 object-contain"
+            height={16}
+            width={16}
+            src={src}
+            alt={title}
+          />
           <span className="text-xs">{title}</span>
         </CardContent>
       </Card>
@@ -652,15 +664,16 @@ export const Footer = () => {
           href="https://github.com/jjdavenport"
         >
           <Image
+            loading="lazy"
             width={20}
             height={20}
+            className="size-5 object-contain"
             src={
               darkMode
                 ? "/github-svgrepo-com-dark.svg"
                 : "/github-svgrepo-com.svg"
             }
             alt="github logo"
-            priority
           />
           jjdavenport
         </Link>
