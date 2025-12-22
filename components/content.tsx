@@ -536,8 +536,8 @@ export const FormDialog = () => {
           </Button>
         </DialogTrigger>
         <DialogContent
-          onOpenAutoFocus={(e) => e.preventDefault()}
           className="rounded-none"
+          onOpenAutoFocus={(e) => e.preventDefault()}
         >
           <DialogHeader>
             <DialogTitle>Contact</DialogTitle>
