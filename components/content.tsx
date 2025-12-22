@@ -125,7 +125,7 @@ export const Stack = () => {
     { src: "/react-router-svgrepo-com.svg", title: "React router" },
     { src: "/sass-svgrepo-com.svg", title: "Sass" },
     { src: "/scss-svgrepo-com.svg", title: "SCSS" },
-    { src: "/postgresql-icon.svg", title: "PostgresSQL" },
+    { src: "/postgresql-icon.svg", title: "PostgreSQL" },
     {
       src: "/prisma-svgrepo-com.svg",
       srcDark: "/prisma-svgrepo-com-dark.svg",
@@ -264,7 +264,7 @@ export const Projects = () => {
         { src: "/next-js.svg", srcDark: "/next-js-dark.svg", title: "Next.js" },
         { src: "/typescript-svgrepo-com.svg", title: "Typescript" },
         { src: "/tailwind-svgrepo-com.svg", title: "Tailwind" },
-        { src: "/postgresql-icon.svg", title: "PostgresSQL" },
+        { src: "/postgresql-icon.svg", title: "PostgreSQL" },
         { src: "/supabase-logo-icon.png", title: "Supabase" },
         {
           src: "/shadcn-ui-seeklogo.svg",
