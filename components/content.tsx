@@ -414,7 +414,16 @@ const ProjectButton = ({ src, title }: { src: string; title: string }) => {
   );
 };
 
-export const Form = () => {
+export const Form = ({ children }: { children: ReactNode }) => {
+  return (
+    <section className="flex flex-col gap-4">
+      <span className="text-lg">Get in touch</span>
+      {children}
+    </section>
+  );
+};
+
+export const FormDialog = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const [input, setInput] = useState({
@@ -519,8 +528,7 @@ export const Form = () => {
     }
   };
   return (
-    <section className="flex flex-col gap-4">
-      <span className="text-lg">Get in touch</span>
+    <>
       <Dialog open={dialogOpen} onOpenChange={handleDialogChange}>
         <DialogTrigger asChild>
           <Button aria-label="contact" className="w-16">
@@ -613,7 +621,6 @@ export const Form = () => {
                       {error.message}
                     </span>
                   </div>
-
                   <Textarea
                     id="message"
                     name="message"
@@ -648,7 +655,7 @@ export const Form = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </section>
+    </>
   );
 };
 
