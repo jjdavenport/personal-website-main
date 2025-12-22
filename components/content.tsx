@@ -460,7 +460,7 @@ export const FormDialog = () => {
     ) {
       setError((prev) => ({
         ...prev,
-        email: "Valid email address required",
+        email: "Valid email required",
       }));
       return;
     }
@@ -484,7 +484,7 @@ export const FormDialog = () => {
       input.email &&
       !input.email.match(/^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/)
     ) {
-      errors.email = "Valid email address required";
+      errors.email = "Valid email required";
     }
 
     if (Object.keys(errors).length) {
