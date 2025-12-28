@@ -27,7 +27,9 @@ import {
   DialogFooter,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -398,18 +400,20 @@ const ProjectCard = ({
 const ProjectButton = ({ src, title }: { src: string; title: string }) => {
   return (
     <li>
-      <Card className="flex w-fit rounded-none py-2">
-        <CardContent className="flex items-center gap-2 px-2">
-          <Image
-            className="size-4 object-contain"
-            height={16}
-            width={16}
-            src={src}
-            alt={title}
-          />
-          <span className="text-xs">{title}</span>
-        </CardContent>
-      </Card>
+      <Item variant="muted" className="flex w-fit rounded-none py-2">
+        <ItemContent className="flex flex-row items-center gap-2 px-2">
+          <ItemMedia>
+            <Image
+              className="size-4 object-contain"
+              height={16}
+              width={16}
+              src={src}
+              alt={title}
+            />
+          </ItemMedia>
+          <ItemTitle className="text-xs">{title}</ItemTitle>
+        </ItemContent>
+      </Item>
     </li>
   );
 };
@@ -425,6 +429,7 @@ export const Form = ({ children }: { children: ReactNode }) => {
 
 export const FormDialog = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [sending, setSending] = useState(false);
 
   const [input, setInput] = useState({
     name: "",
@@ -489,9 +494,11 @@ export const FormDialog = () => {
 
     if (Object.keys(errors).length) {
       setError((prev) => ({ ...prev, ...errors }));
+      setSending(false);
       return;
     }
 
+    setSending(true);
     const toastId = toast.loading("Sending message");
 
     try {
@@ -503,6 +510,7 @@ export const FormDialog = () => {
 
       if (error) {
         toast.error("Failed to send message", { id: toastId });
+        setSending(false);
         return;
       }
 
@@ -513,8 +521,10 @@ export const FormDialog = () => {
         setInput({ name: "", email: "", message: "" });
         setVanish(false);
         setDialogOpen(false);
+        setSending(false);
       }, 600);
     } catch {
+      setSending(false);
       toast.error("Server or database error", { id: toastId });
     }
   };
@@ -648,7 +658,7 @@ export const FormDialog = () => {
                   <DialogClose asChild>
                     <Button variant="outline">Cancel</Button>
                   </DialogClose>
-                  <Button type="submit">Send</Button>
+                  <Button type="submit">{sending && <Spinner />} Send</Button>
                 </DialogFooter>
               </FieldSet>
             </FieldGroup>
